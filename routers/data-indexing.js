@@ -4,12 +4,12 @@ import * as controller from '../controllers/data-indexing.js';
 
 const router = Router();
 
-router.post('/dataindexing', controller.postDataIndexing);
+router.post('/data-indexing', controller.postDataIndexing);
 router.post('/cid', controller.addCID);
-router.get('/cidgrouped', controller.getCIDByGroupTimeRange);
-router.get('/cidatomic', controller.getCIDWithinAtomicTimeRange);
+router.get('/cid-grouped', controller.getCIDByGroupTimeRange);
+router.get('/cid-atomic', controller.getCIDWithinAtomicTimeRange);
 router.post('/page', controller.addPage);
-router.get('/pagebytimerange', controller.get_page_by_time_range);
-router.get('/findpagebygrouptimerange', controller.findPagesByGroupTimeRange);
+router.get('/page-by-time-range', controller.getPageByTimeRange);
+router.get('/find-page-by-group-time-range', controller.findPagesByGroupTimeRange);
 
 export { router as dataIndexingRouter };

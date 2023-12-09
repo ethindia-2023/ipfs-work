@@ -1,4 +1,4 @@
-const { ActiveVisitorsModel } = require("../models/activevisitors");
+const { ActiveVisitorsModel } = require("../models/active-visitors");
 
 exports.postActiveVisitors = async (req, res, next) => {
   try {

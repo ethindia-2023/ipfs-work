@@ -67,6 +67,7 @@ exports.getCIDWithinAtomicTimeRange = async (req, res, next) => {
         });
     }
 }
+
 exports.addPage = async (req, res, next) => {
     try {
         const dataIndexing = new dataIndexingModel(req.body.Pages);
@@ -83,7 +84,8 @@ exports.addPage = async (req, res, next) => {
         });
     }
 }
-exports.get_page_by_time_range = async (req, res, next) => {
+
+exports.getPageByTimeRange = async (req, res, next) => {
     try {
         const dataIndexing = new dataIndexingModel();
         const result = await dataIndexing.find_page_by_time_range(req.body.start, req.body.end);

@@ -16,6 +16,7 @@ exports.getIdentifier = async (req, res, next) => {
     });
   }
 };
+
 exports.postIdentifier = async (req, res, next) => {
   try {
     const identifier = new IdentifierModel(req.body.AuthToken);
@@ -32,6 +33,7 @@ exports.postIdentifier = async (req, res, next) => {
     });
   }
 };
+
 exports.postLog = async (req, res, next) => {
   try {
     const identifier = new IdentifierModel(req.body.AuthToken);
@@ -48,6 +50,7 @@ exports.postLog = async (req, res, next) => {
     });
   }
 };
+
 exports.getLogsWithinAtomicTimeRange = async (req, res, next) => {
   try {
     const identifier = new IdentifierModel(req.body.AuthToken);
@@ -67,6 +70,7 @@ exports.getLogsWithinAtomicTimeRange = async (req, res, next) => {
     });
   }
 };
+
 exports.getLogsByGroupTimeRange = async (req, res, next) => {
   try {
     const identifier = new IdentifierModel(req.body.AuthToken);
