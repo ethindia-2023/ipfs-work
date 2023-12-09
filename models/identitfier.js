@@ -41,7 +41,6 @@ class IdentifierModel {
     }
   }
 
-  // cron job use karega
   async addLog(logtopush) {
     try {
       const result = await this.model.updateOne(

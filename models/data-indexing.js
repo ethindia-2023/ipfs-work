@@ -124,7 +124,6 @@ class dataIndexingModel {
         .aggregate([
           {
             $match: {
-              pages: this.Pages,
               createdAt: { $gte: start, $lte: end },
             },
           },
