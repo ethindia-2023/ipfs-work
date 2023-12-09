@@ -16,6 +16,7 @@ exports.postActiveVisitors = async (req, res, next) => {
     });
   }
 };
+
 exports.addPublicKey = async (req, res, next) => {
   try {
     const activeVisitors = new ActiveVisitorsModel(req.body.page);
