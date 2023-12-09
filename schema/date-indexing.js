@@ -7,6 +7,7 @@ class dateindexingSchemaClass {
       {
         Pages: [{ type: Schema.Types.ObjectId, ref: "activepageviews" }],
         CID: { type: String, default: null },
+        AppID: { type: String, required: true },
       },
       {
         timestamps: true,

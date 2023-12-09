@@ -1,13 +1,13 @@
-import { Router } from 'express';
+const { Router } = require("express");
 
-import * as controller from '../controllers/identifier.js';
+const controller = require("../controllers/identifier.js");
 
 const router = Router();
 
-router.get('/identifier', controller.getIdentifier);
-router.post('/identifier', controller.postIdentifier);
-router.post('/log', controller.postLog);
-router.get('/logatomic', controller.getLogsWithinAtomicTimeRange);
-router.get('/loggrouped', controller.getLogsByGroupTimeRange);
+router.post("/identifier", controller.findProjectAuthTokenByAppID);
+router.post("/get-identifier", controller.createNewProject);
+router.post("/log", controller.AddLogtoLogs);
+router.post("/logatomic", controller.findLogWithinAtomicTimeRange);
+router.post("/loggrouped", controller.findLogsByGroupedTimeRange);
 
-export { router as identifierRouter };
+module.exports = router;

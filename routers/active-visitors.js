@@ -1,13 +1,16 @@
-import { Router } from 'express';
-
-import * as controller from '../controllers/active-visitors.js';
+const { Router } = require("express");
+const controller = require("../controllers/active-visitors.js");
 
 const router = Router();
 
-router.post('/active-visitors', controller.postActiveVisitors);
-router.post('/public-key', controller.addPublicKey);
-router.get('/active-visitors-over-time', controller.getActiveVisitorsOverTimeRange);
-router.get('/active-visitors-grouped', controller.getActiveVisitorsGroupedByTimeRange);
-router.get('/active-page-views-over-time', controller.getActivePageViewsOverTimeRange);
+router.post("/active-visitors", controller.CreateNewPageVisit);
+router.post(
+  "/active-visitors-over-time",
+  controller.findActivePageViewsOverTimeRange
+);
+router.post(
+  "/active-visitors-grouped",
+  controller.findActivePageViewsGroupedByTimeRange
+);
 
-export { router as activeVisitorsRouter };
+module.exports = router;

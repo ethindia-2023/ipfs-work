@@ -1,15 +1,17 @@
-import { Router } from 'express';
+const { Router } = require("express");
 
-import * as controller from '../controllers/data-indexing.js';
+const controller = require("../controllers/data-indexing.js");
 
 const router = Router();
 
-router.post('/data-indexing', controller.postDataIndexing);
-router.post('/cid', controller.addCID);
-router.get('/cid-grouped', controller.getCIDByGroupTimeRange);
-router.get('/cid-atomic', controller.getCIDWithinAtomicTimeRange);
-router.post('/page', controller.addPage);
-router.get('/page-by-time-range', controller.getPageByTimeRange);
-router.get('/find-page-by-group-time-range', controller.findPagesByGroupTimeRange);
+router.post("/data-indexing", controller.addSinglePageToPages);
+router.post("/cid", controller.addCID);
+router.post("/cid-grouped", controller.getCIDByGroupTimeRange);
+router.post("/cid-atomic", controller.getCIDWithinAtomicTimeRange);
+router.post("/page-by-time-range", controller.getPageByTimeRange);
+router.post(
+  "/find-page-by-group-time-range",
+  controller.findPagesByGroupTimeRange
+);
 
-export { router as dataIndexingRouter };
+module.exports = router;

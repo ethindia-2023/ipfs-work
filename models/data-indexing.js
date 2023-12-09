@@ -2,18 +2,22 @@ const { mongoose } = require("mongoose");
 const { dataIndexingClass } = require("../schema/date-indexing");
 
 class dataIndexingModel {
-  constructor(Pages = []) {
+  constructor(Page, AppID) {
     this.model = mongoose.model("dateindexing", dataIndexingClass);
-    this.Pages = Pages;
+    this.Page = Page;
+    this.AppID = AppID;
   }
-  async save() {
+  // checks if a pages is already been created it updates the Pages array otherwise it creates a new entry and saves the page in that Pages array
+  async addPage() {
     try {
-      const result = await this.model.create({
-        Pages: this.Pages,
-      });
+      const result = await this.model.updateOne(
+        { AppID: this.AppID },
+        { $addToSet: { Pages: this.Page } },
+        { upsert: true }
+      );
       return result;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw error;
     }
   }
@@ -22,7 +26,13 @@ class dataIndexingModel {
   async addCID(CID) {
     // Should add a CID to the latest document whose CID is null right now
     // CID is a string
-    const result = await this.model.updateOne({ CID: null }, { CID: CID });
+    const result = await this.model.updateOne(
+      {
+        CID: null,
+        AppID: this.AppID,
+      },
+      { CID: CID }
+    );
     return result;
   }
 
@@ -33,6 +43,7 @@ class dataIndexingModel {
           {
             $match: {
               createdAt: { $gte: start, $lte: end },
+              AppID: this.AppID,
             },
           },
           {
@@ -72,6 +83,7 @@ class dataIndexingModel {
       const result = await this.model
         .find({
           createdAt: { $gte: start, $lte: end },
+          AppID: this.AppID,
         })
         .select({ CID: 1, createdAt: 1 })
         .lean();
@@ -86,24 +98,12 @@ class dataIndexingModel {
     }
   }
 
-  async addPage(page) {
-    try {
-      const result = await this.model.updateOne(
-        { Pages: this.Pages },
-        { $push: { Pages: page } }
-      );
-      return result;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-
   async find_page_by_time_range(start, end) {
     try {
       const result = await this.model
         .find({
           createdAt: { $gte: start, $lte: end },
+          AppID: this.AppID,
         })
         .select({ Pages: 1, createdAt: 1 })
         .lean();
@@ -125,6 +125,7 @@ class dataIndexingModel {
           {
             $match: {
               createdAt: { $gte: start, $lte: end },
+              AppID: this.AppID,
             },
           },
           {

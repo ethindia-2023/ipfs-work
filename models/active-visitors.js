@@ -2,32 +2,24 @@ const mongoose = require("mongoose");
 const activeVisitorsScheme = require("../schema/activevisitors");
 
 class ActiveVisitorsModel {
-  constructor(publicKeys = [], page = none) {
+  constructor(publicKey, page, AppID) {
     this.model = mongoose.model("activepageviews", activeVisitorsScheme);
     this.page = page;
-    this.publicKeys = publicKeys;
+    this.publicKey = publicKey;
+    this.AppID = AppID;
   }
-  async save() {
-    try {
-      const result = await this.model.create({
-        page: this.page,
-        publicKeys: this.publicKeys,
-      });
-      return result;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-  async addPublicKey(publicKey) {
+
+  // checks if a page is already been visited and if it has already been visited then it updates the public keys array otherwise it creates a new entry and saves it
+  async savePageView() {
     try {
       const result = await this.model.updateOne(
-        { page: this.page },
-        { $push: { publicKeys: publicKey } }
+        { page: this.page, AppID: this.AppID },
+        { $addToSet: { publicKeys: this.publicKey } },
+        { upsert: true }
       );
       return result;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw error;
     }
   }
@@ -37,6 +29,7 @@ class ActiveVisitorsModel {
       const result = await this.model
         .find({
           page: this.page,
+          AppID: this.AppID,
           createdAt: { $gte: start, $lte: end },
         })
         .select({ publicKeys: 1, createdAt: 1 })
@@ -60,6 +53,7 @@ class ActiveVisitorsModel {
           {
             $match: {
               page: this.page,
+              AppID: this.AppID,
               createdAt: { $gte: start, $lte: end },
             },
           },

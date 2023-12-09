@@ -6,6 +6,7 @@ class IdentifierSchemaClass {
     this.schema = new Schema({
       AuthToken: { type: String, required: true },
       Logs: [{ type: Schema.Types.ObjectId, ref: "dateindexing" }],
+      AppID: { type: String, required: true },
     },
     {
       timestamps: true,

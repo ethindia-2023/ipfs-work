@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 const identifierSchema = require("../schema/identifier");
 
 class IdentifierModel {
-  constructor(AuthToken = none, Logs = []) {
+  constructor(AuthToken, Logs = [], AppID) {
     this.model = mongoose.model("Identifier", identifierSchema);
     this.AuthToken = AuthToken;
     this.Logs = Logs;
+    this.AppID = AppID;
   }
 
   async save() {
@@ -13,6 +14,7 @@ class IdentifierModel {
       const result = await this.model.create({
         AuthToken: this.AuthToken,
         Logs: this.Logs,
+        AppID: this.AppID,
       });
       return result;
     } catch (error) {
@@ -25,7 +27,7 @@ class IdentifierModel {
   async find() {
     try {
       const result = await this.model
-        .findOne({ AuthToken: this.AuthToken })
+        .findOne({ AppID: this.AppID })
         .select({ Logs: 1 })
         .lean();
       const logs = result ? result.Logs : [];
@@ -44,7 +46,7 @@ class IdentifierModel {
   async addLog(logtopush) {
     try {
       const result = await this.model.updateOne(
-        { AuthToken: this.AuthToken },
+        { AppID: this.AppID },
         { $push: { Logs: logtopush } }
       );
       return result;
@@ -58,7 +60,7 @@ class IdentifierModel {
     try {
       const result = await this.model
         .find({
-          AuthToken: this.AuthToken,
+          AppID: this.AppID,
           createdAt: { $gte: start, $lte: end },
         })
         .select({ Logs: 1, createdAt: 1 })
@@ -80,7 +82,7 @@ class IdentifierModel {
         .aggregate([
           {
             $match: {
-              AuthToken: this.AuthToken,
+              AppID: this.AppID,
               createdAt: { $gte: start, $lte: end },
             },
           },

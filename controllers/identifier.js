@@ -1,25 +1,12 @@
-const { IdentifierModel } = require("../models/identifier");
+const { IdentifierModel } = require("../models/identitfier");
 
-exports.getIdentifier = async (req, res, next) => {
+exports.createNewProject = async (req, res, next) => {
   try {
-    const identifier = new IdentifierModel(req.body.AuthToken);
-    const result = await identifier.find();
-    res.status(200).json({
-      message: "Identifier fetched successfully",
-      result: result,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Identifier not fetched",
-      error: error,
-    });
-  }
-};
-
-exports.postIdentifier = async (req, res, next) => {
-  try {
-    const identifier = new IdentifierModel(req.body.AuthToken);
+    const identifier = new IdentifierModel(
+      req.body.AuthToken,
+      [],
+      req.body.AppID
+    );
     const result = await identifier.save();
     res.status(200).json({
       message: "Identifier saved successfully",
@@ -34,10 +21,27 @@ exports.postIdentifier = async (req, res, next) => {
   }
 };
 
-exports.postLog = async (req, res, next) => {
+exports.findProjectAuthTokenByAppID = async (req, res, next) => {
   try {
-    const identifier = new IdentifierModel(req.body.AuthToken);
-    const result = await identifier.addLog(req.body.Logs);
+    const identifier = new IdentifierModel(null, [], req.body.AppID);
+    const result = await identifier.find();
+    res.status(200).json({
+      message: "Identifier fetched successfully",
+      result: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Identifier not fetched",
+      error: error,
+    });
+  }
+};
+
+exports.AddLogtoLogs = async (req, res, next) => {
+  try {
+    const identifier = new IdentifierModel(null, [], req.body.AppID);
+    const result = await identifier.addLog(req.body.logtopush);
     res.status(200).json({
       message: "Log added successfully",
       result: result,
@@ -51,42 +55,42 @@ exports.postLog = async (req, res, next) => {
   }
 };
 
-exports.getLogsWithinAtomicTimeRange = async (req, res, next) => {
+exports.findLogWithinAtomicTimeRange = async (req, res, next) => {
   try {
-    const identifier = new IdentifierModel(req.body.AuthToken);
+    const identifier = new IdentifierModel(null, [], req.body.AppID);
     const result = await identifier.findLogWithinAtomicTimeRange(
       req.body.start,
       req.body.end
     );
     res.status(200).json({
-      message: "Logs fetched successfully",
+      message: "Log fetched successfully",
       result: result,
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Logs not fetched",
+      message: "Log not fetched",
       error: error,
     });
   }
 };
 
-exports.getLogsByGroupTimeRange = async (req, res, next) => {
+exports.findLogsByGroupedTimeRange = async (req, res, next) => {
   try {
-    const identifier = new IdentifierModel(req.body.AuthToken);
-    const result = await identifier.findLogsGroupedByTimeRange(
+    const identifier = new IdentifierModel(null, [], req.body.AppID);
+    const result = await identifier.findLogsByGroupedTimeRange(
       req.body.start,
       req.body.end,
       req.body.intervalInSeconds
     );
     res.status(200).json({
-      message: "Logs fetched successfully",
+      message: "Log fetched successfully",
       result: result,
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Logs not fetched",
+      message: "Log not fetched",
       error: error,
     });
   }

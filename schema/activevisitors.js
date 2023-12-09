@@ -14,6 +14,7 @@ class ActivePageViewsSchemeClass {
           default: PageViewsScheme.create({}),
           required: true,
         },
+        AppID: { type: String, required: true },
       },
       {
         timestamps: true,
