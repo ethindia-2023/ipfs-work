@@ -3,7 +3,7 @@ const controller = require("../controllers/active-visitors.js");
 
 const router = Router();
 
-router.post("/active-visitors", controller.CreateNewPageVisit);
+router.post("/visitor", controller.CreateNewPageVisit);
 router.post(
   "/active-visitors-over-time",
   controller.findActivePageViewsOverTimeRange

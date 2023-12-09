@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 const activeVisitorsScheme = require("../schema/activevisitors");
-
+const database = require("../utils/db");
+const dataindexingModel = require("./data-indexing");
 class ActiveVisitorsModel {
-  constructor(publicKey, page, AppID) {
-    this.model = mongoose.model("activepageviews", activeVisitorsScheme);
+  constructor(publicKey = null, page = null, AppID = null) {
+    this.db = database.db;
+    this.model = this.db.mongoose.model(
+      "activepageviews",
+      activeVisitorsScheme
+    );
     this.page = page;
     this.publicKey = publicKey;
     this.AppID = AppID;
@@ -12,12 +17,16 @@ class ActiveVisitorsModel {
   // checks if a page is already been visited and if it has already been visited then it updates the public keys array otherwise it creates a new entry and saves it
   async savePageView() {
     try {
-      const result = await this.model.updateOne(
+      const result = await this.model.findOneAndUpdate(
         { page: this.page, AppID: this.AppID },
-        { $addToSet: { publicKeys: this.publicKey } },
-        { upsert: true }
+        {
+          $addToSet: { publicKeys: { key: this.publicKey } },
+        },
+        { upsert: true, new: true }
       );
-      return result;
+      const dataIndexing = new dataindexingModel(result, this.AppID);
+      const response = await dataIndexing.addPage();
+      return response;
     } catch (error) {
       console.error(error);
       throw error;

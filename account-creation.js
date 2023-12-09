@@ -1,6 +1,6 @@
 const Web3 = require('web3')
 
-class ProjectAccount{
+class ProjectAccount{0
     constructor(){
         this.privateKey = web3.eth.accounts.create().privateKey
         this.publicKey = web3.eth.accounts.privateKeyToAccount(this.privateKey).address

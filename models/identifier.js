@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const identifierSchema = require("../schema/identifier");
+const database = require("../utils/db");
 
 class IdentifierModel {
   constructor(AuthToken, Logs = [], AppID) {
-    this.model = mongoose.model("Identifier", identifierSchema);
+    this.db = database.db;
+    this.model = this.db.mongoose.model("Identifier", identifierSchema);
     this.AuthToken = AuthToken;
     this.Logs = Logs;
     this.AppID = AppID;
@@ -45,9 +47,12 @@ class IdentifierModel {
 
   async addLog(logtopush) {
     try {
-      const result = await this.model.updateOne(
+      const result = await this.model.findOneAndUpdate(
         { AppID: this.AppID },
-        { $push: { Logs: logtopush } }
+        {
+          $addToSet: { Logs: { CID: logtopush } },
+        },
+        { upsert: true, new: true }
       );
       return result;
     } catch (error) {

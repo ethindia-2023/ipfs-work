@@ -1,5 +1,6 @@
-import { Mongoose } from "mongoose";
-
+const Mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
 class Database {
   constructor() {
     this.db = null;
@@ -18,4 +19,4 @@ class Database {
   }
 }
 
-export default Database;
+module.exports = new Database();

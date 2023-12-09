@@ -1,10 +1,11 @@
-const { mongoose } = require("mongoose");
-const { dataIndexingClass } = require("../schema/date-indexing");
-
+const mongoose = require("mongoose");
+const dataIndexingClass = require("../schema/date-indexing");
+const database = require("../utils/db");
 class dataIndexingModel {
-  constructor(Page, AppID) {
-    this.model = mongoose.model("dateindexing", dataIndexingClass);
-    this.Page = Page;
+  constructor(PageObj = null, AppID = null) {
+    this.db = database.db;
+    this.model = this.db.mongoose.model("dataindexing", dataIndexingClass);
+    this.PageObj = PageObj;
     this.AppID = AppID;
   }
   // checks if a pages is already been created it updates the Pages array otherwise it creates a new entry and saves the page in that Pages array
@@ -12,7 +13,7 @@ class dataIndexingModel {
     try {
       const result = await this.model.updateOne(
         { AppID: this.AppID },
-        { $addToSet: { Pages: this.Page } },
+        { $addToSet: { Pages: this.PageObj } },
         { upsert: true }
       );
       return result;
