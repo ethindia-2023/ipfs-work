@@ -17,4 +17,4 @@ class PageViewsSchemeClass {
 
 const PageViewsScheme = new PageViewsSchemeClass();
 PageViewsScheme.Schema.plugin(AutoIncrement, { inc_field: "counter" });
-module.exports = model("pageviews", PageViewsScheme.Schema);
+module.exports = PageViewsScheme.Schema

@@ -4,7 +4,8 @@
   "description": "",
   "main": "encrypt.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon app.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "mongodb-tools": "^1.0.6",
     "mongoose": "^8.0.3",
     "mongoose-sequence": "^5.3.1",
+    "nodemon": "^3.0.2",
     "web3": "^4.3.0"
   }
 }

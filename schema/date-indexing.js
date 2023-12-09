@@ -16,4 +16,4 @@ class dateindexingSchemaClass {
   }
 }
 const dateindexingClass = new dateindexingSchemaClass();
-module.exports = model("dateindexing", dateindexingClass.schema);
+module.exports = dateindexingClass.schema

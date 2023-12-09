@@ -1,19 +1,17 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
-const PageViewsScheme = require("./pageviews");
 
 class ActivePageViewsSchemeClass {
   constructor() {
     this.Schema = new Schema(
       {
         page: { type: String, required: true },
-        publicKeys: { type: Array, required: true, timestamps: true },
-        counter: {
-          type: Schema.Types.ObjectId,
-          ref: "pageviews",
-          default: PageViewsScheme.create({}),
-          required: true,
-        },
+        publicKeys: [
+          {
+            key: { type: String, required: true },
+            timestamp: { type: Date, default: Date.now },
+          },
+        ],
         AppID: { type: String, required: true },
       },
       {
@@ -23,4 +21,4 @@ class ActivePageViewsSchemeClass {
   }
 }
 const ActivePageViewsScheme = new ActivePageViewsSchemeClass();
-module.exports = model("activepageviews", ActivePageViewsScheme.Schema);
+module.exports = ActivePageViewsScheme.Schema

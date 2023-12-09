@@ -15,4 +15,4 @@ class IdentifierSchemaClass {
 }
 
 const identitifierClass = new IdentifierSchemaClass();
-module.exports = model("Identifier", identitifierClass.schema);
+module.exports = identitifierClass.schema
