@@ -5,6 +5,7 @@ const dataIndexingRouter = require("./routers/data-indexing.js");
 const identifierRouter = require("./routers/identifier.js");
 const database = require("./utils/db");
 const identifierController = require("./controllers/identifier");
+const analrouter = require("./routers/anal.js")
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +24,7 @@ app.post("/data", (req, res) => {
 app.use("/activevisitors", activeVisitorsRouter);
 app.use("/dataindexing", dataIndexingRouter);
 app.use("/identifier", identifierRouter);
+app.use("/total24value",analrouter)
 
 // cron job to delete old logs and store uid linked with timeline
 
